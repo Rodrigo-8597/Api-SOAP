@@ -12,15 +12,56 @@ from spyne.protocol.soap import Soap11
 from spyne.model.primitive import String
 
 import openpyxl
-import Base64
+import base64
 
 class psuService(ServiceBase):
     @rpc(Unicode, Unicode, _returns = Iterable(Unicode))
     def separacion(ctx, dato_64):
-        dato_real=dato_64.decode64()
+        carreras=[]
+        for i in range(0,28):
+            carreras.append([])
+        
+        base64_bytes=dato_64.encode('ascii')
+        message_bytes=base64.b64decode(base64_bytes)
+        message=message_bytes.decode('ascii')
+        message=message.split('\n')
+        for i in range(0,len(message)):
+            message[i]=message[i].split(';')
+        
 
 
+        wb=Workbook()
+        ws=wb.active
+        ws.title="C. 1"
+        ws1 = wb.create_sheet("C. 2")
+        ws2 = wb.create_sheet("C. 3")
+        ws3 = wb.create_sheet("C. 4")
+        ws4 = wb.create_sheet("C. 5")
+        ws5 = wb.create_sheet("C. 6")
+        ws6 = wb.create_sheet("C. 7")
+        ws7 = wb.create_sheet("C. 8")
+        ws8 = wb.create_sheet("C. 9")
+        ws9 = wb.create_sheet("C. 10")
+        ws10 = wb.create_sheet("C. 11")
+        ws11 = wb.create_sheet("C. 12")
+        ws12 = wb.create_sheet("C. 13")
+        ws13 = wb.create_sheet("C. 14")
+        ws14 = wb.create_sheet("C. 15")
+        ws15 = wb.create_sheet("C. 16")
+        ws16 = wb.create_sheet("C. 17")
+        ws17 = wb.create_sheet("C. 18")
+        ws18 = wb.create_sheet("C. 19")
+        ws19 = wb.create_sheet("C. 20")
+        ws20 = wb.create_sheet("C. 21")
+        ws21 = wb.create_sheet("C. 22")
+        ws22 = wb.create_sheet("C. 23")
+        ws23 = wb.create_sheet("C. 24")
+        ws24 = wb.create_sheet("C. 25")
+        ws25 = wb.create_sheet("C. 26")
+        ws26 = wb.create_sheet("C. 27")
+        ws27 = wb.create_sheet("C. 28")
 
+        wb.save(filename = 'admitidos.xlsx')
         yield(excel_base64)
 
 class digitoService(ServiceBase):
