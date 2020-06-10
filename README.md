@@ -14,3 +14,7 @@ lxml: pip install lmxl
 -Activar servidor
 
 dentro del terminal, y ya con python instalado, se escribe la siguiente linea de codigo en la ubicacion del archivo api.py
+
+en soapUI:
+
+http://localhost:8000/?wsdl
