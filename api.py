@@ -19,7 +19,7 @@ def mayor_p(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12):
     m=0
     p=0
     for i in range(0,12):
-        if(ista[i]>m):
+        if(lista[i]>m):
             m=lista[i]
             p=i
     return p
