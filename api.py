@@ -3,7 +3,7 @@ from itertools import cycle
 
 logging.basicConfig(level=logging.DEBUG)
 from spyne import Application, rpc, ServiceBase, Integer, Unicode
-from spyne import Iterable
+from spyne import Iterable                 #Importamos las librerias de spyne necesarias para realizar la construcción del SOAP
 from spyne.protocol.http import HttpRpc
 from spyne.protocol.json import JsonDocument
 from spyne.server.wsgi import WsgiApplication
@@ -11,21 +11,21 @@ from spyne.protocol.soap import Soap11
 from spyne.model.primitive import String
 
 
-import openpyxl
-import base64
+import openpyxl   #Openpyxl es la libreria para manipular archivos de excel (csv)
+import base64           
 
 def mayor_p(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12):
     lista=[c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12]
     m=0
     p=0
     for i in range(0,12):
-        if(ista[i]>m):
+        if(lista[i]>m):
             m=lista[i]
             p=i
     return p
 
 def ordenar(carrera):
-    tope=len(carrera)
+    tope=len(carrera) #Buscamos cuales son los cupos maximos disponibles para cada carrera en el proceso de admisión
     izquierda=[]
     derecha=[]
     centro=[]
@@ -69,7 +69,7 @@ def almacenar(carreras, datos, max_ing):
 class psuService(ServiceBase):
     @rpc(Unicode, Unicode, Unicode, _returns = Iterable(Unicode))
     def separacion(ctx, nombre_archivo, mime, dato_64):
-        mime=mime.upper()
+        mime=mime.upper() 
         if(mime!="CSV" and mime!="TEXT" and mime!="TXT"):
             return ("Tipo MIME especificado invalido; favor enviar especificacion como CSV, TEXT, TXT")
 
@@ -95,17 +95,18 @@ class psuService(ServiceBase):
 
             c1=float(nem*0.15+ranking*0.2+lenguaje*0.3+matematicas*0.25)
             c2=float(nem*0.2+ranking*0.2+lenguaje*0.4+matematicas*0.1)
-            c3=float(nem*0.2+ranking*0.2+lenguaje*0.3+matematicas*0.15)
+            c3=float(nem*0.2+ranking*0.2+lenguaje*0.3+matematicas*0.15)   #Se calcula una parte del resultado de cada estudiante aplicando las ponderaciones de cada carrera
             c4_7=float(nem*0.1+ranking*0.2+lenguaje*0.3+matematicas*0.3)
-            c8=float(nem*0.15+ranking*0.25+lenguaje*0.2+matematicas*0.2) 
+            c8=float(nem*0.15+ranking*0.25+lenguaje*0.2+matematicas*0.2)  
             c9_10=float(nem*0.2+ranking*0.2+lenguaje*0.15+matematicas*0.35)
             c11=float(nem*0.15+ranking*0.35+lenguaje*0.2+matematicas*0.2)
-            c12_13=float(nem*0.15+ranking*0.25+lenguaje*0.2+matematicas*0.3)
+            c12_13=float(nem*0.15+ranking*0.25+lenguaje*0.2+matematicas*0.3)  #Cabe destacar que Python permite realizar calculos sobre carreras con la misma ponderación, permitiendo ahorrar lineas de código
             c14_15=float(nem*0.1+ranking*0.25+lenguaje*0.15+matematicas*0.3)
             c16_17=float(nem*0.1+ranking*0.4+lenguaje*0.3+matematicas*0.1)
             c18=float(nem*0.2+ranking*0.3+lenguaje*0.2+matematicas*0.1)
             c19_28=float(nem*0.1+ranking*0.25+lenguaje*0.2+matematicas*0.35)    
-            if(historia>=ciencias):
+            #La universidad calcula la ponderación tomando en cuenta el puntaje mas alto entre la prueba de ciencias y la de historia
+            if(historia>=ciencias): #El puntaje en historia es el escogido para la ponderación si este resultado es mas alto que el puntaje obtenido en ciencias
                 c1=c1+float(historia*0.1)
                 c2=c2+float(historia*0.1)
                 c3=c3+float(historia*0.15)
@@ -118,7 +119,7 @@ class psuService(ServiceBase):
                 c16_17=c16_17+float(historia*0.1)
                 c18=c18+float(historia*0.2)
                 c19_28=c19_28+float(historia*0.1)
-            else:
+            else:                            #En caso contrario, la ponderación del estudiante se calcula utilizando su resultado en la prueba de ciencias
                 c1=c1+float(ciencias*0.1)
                 c2=c2+float(ciencias*0.1)
                 c3=c3+float(ciencias*0.1)
@@ -357,7 +358,7 @@ class psuService(ServiceBase):
 
 class digitoService(ServiceBase):
     @rpc(Unicode, Unicode, _returns = Iterable(Unicode))
-    def digito_verificador(ctx, rut, times):
+    def digito_verificador(ctx, rut, times): 
         n_rut = rut.split('-')
         reversed_digits = map(int, reversed(str(n_rut[0])))
         factors = cycle(range(2, 8))
