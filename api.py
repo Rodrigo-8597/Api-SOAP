@@ -6,6 +6,7 @@ Desarrolladores:
     -Ricardo Aliste G.
     -Daniel Cajas
     -Rodrigo Carmona R.
+    
 Resumen:
 API SOAP desarrollada en Python; esta API recibe un listado CSV de, como minimo, 2200 estudiantes (estructurado mediante los datos: RUT;PUNTAJES, siendo
 PUNTAJES los puntajes que obtuvieron de NEM, RANKING, PSU lENGUAJE, PSU MATEMATICAS, PSU CIENCIAS, PSU HISTORIA) en BASE64, el MIME type del mismo,y el 
@@ -17,6 +18,8 @@ a la de su carrera.
 
 Este excel es posteriormente encodeado en BASE64, y es devuelto al clinete, junto con el tipo mime correspondiente a un tipo excel, y el nombre de este
 mismo.
+
+* Se puede encontrar mas informacion en la carpeta "Material adicional" del repositorio *
 """
 #########################################################      Librerias y Herramientas Importadas      #########################################################
 import logging ###Libreria para el sistema
@@ -85,61 +88,61 @@ def almacenar(carreras, datos, max_ing): ###Funcion que realiza el guardado de l
 
 def entregarCarrera(indice): ###Funcion encargada de devolver el codigo de cada carrera, en funcion a un parametro indice que recibe;
     if(indice==0):
-        return "21089" ###
+        return "21089" ###Administracion Publica
     elif(indice==1):
-        return "21002" ###
+        return "21002" ###Bibliotecología y Documentación
     elif(indice==2):
-        return "21012" ###
+        return "21012" ###Contador Público y Auditor
     elif(indice==3):
-        return "21048" ###
+        return "21048" ###Ingeniería Comercial
     elif(indice==4):
-        return "21015" ###
+        return "21015" ###Ingeniería en Administración Agroindustrial
     elif(indice==5):
-        return "21081"
+        return "21081" ###Ingeniería en Comercio Internacional
     elif(indice==6):
-        return "21082"
+        return "21082" ###Ingeniería en Gestión Turística
     elif(indice==7):
-        return "21047"
+        return "21047" ###Arquitectura
     elif(indice==8):
-        return "21074"
+        return "21074" ###Ingeniería Civil en Obras Civiles
     elif(indice==9):
-        return "21032"
+        return "21032" ###Ingeniería en Construcción
     elif(indice==10):
-        return "21087"
+        return "21087" ###Ingeniería Civil en Prevención de Riesgos y Medioambiente
     elif(indice==11):
-        return "21073"
+        return "21073" ###Ingeniería en Biotecnología
     elif(indice==12):
-        return "21039"
+        return "21039" ###Ingeniería en Industria Alimentaria
     elif(indice==13):
-        return "21080"
+        return "21080" ###Ingeniería en Química
     elif(indice==14):
-        return "21083"
+        return "21083" ###Química Industrial
     elif(indice==15):
-        return "21024"
+        return "21024" ###Diseño en Comunicación Visual
     elif(indice==16):
-        return "21023"
+        return "21023" ###Diseño Industrial
     elif(indice==17):
-        return "21043"
+        return "21043" ###Trabajo Social
     elif(indice==18):
-        return "21046"
+        return "21046" ###Bachillerato en Ciencias de la Ingeniería
     elif(indice==19):
-        return "21071"
+        return "21071" ###Dibujante Proyectista
     elif(indice==20):
-        return "21041"
+        return "21041" ###Ingeniería Civil en Computación, mención Informática
     elif(indice==21):
-        return "21076"
+        return "21076" ###Ingeniería Civil Industrial
     elif(indice==22):
-        return "21049"
+        return "21049" ###Ingeniería Civil en Ciencia de Datos
     elif(indice==23):
-        return "21075"
+        return "21075" ###Ingeniería Civil Electrónica
     elif(indice==24):
-        return "21096"
+        return "21096" ###Ingeniería Civil en Mecánica
     elif(indice==25):
-        return "21031"
+        return "21031" ###Ingeniería en Geomensura
     elif(indice==26):
-        return "21030"
+        return "21030" ###Ingeniería en Informática
     elif(indice==27):
-        return "21045"   
+        return "21045" ###Ingeniería Industrial
 
 def insertar(carreras): ###Funcion encargada de crear y poblar las diversas hojas del excel; Recibe como parametro el listado de listas de las carreras
     excel = Workbook() ###Crea el excel
@@ -164,26 +167,30 @@ def insertar(carreras): ###Funcion encargada de crear y poblar las diversas hoja
 class psuService(ServiceBase):
     @rpc(Unicode, Unicode, Unicode, _returns = Iterable(Unicode))
     def separacion(ctx, nombre_archivo, mime, dato_64):
-        n = [0, 0, 0, 0, 0, 0]
-        matriculados = []
-        i = 0
-        carreras = []
+        ###Activacion de variables de apoyo y almacenamiento
+        n=[0, 0, 0, 0, 0, 0] ###Contadores para areas con multiples carreras
+        matriculados=[]      ###Listado de alumnos ya matriculados
+        i=0
+        carreras=[] ###Lista de listas (listado de carreras)
         for i in range(0, 28):
             carreras.append([])
 
-        todos = []
+        todos = []  ###Lista de listas (listado de los mejores por area)
         for i in range(0, 12):
             todos.append([])
+
+        ###Se realiza el cambio la naturaleza del string en base64 a texto plano 
         base64_bytes = dato_64.encode('ascii')
         message_bytes = base64.b64decode(base64_bytes)
         message = message_bytes.decode('ascii')
-        message=message.split("\n")
-        c1=0
-        c2=0
-        c3=0
+        message=message.split("\n") ###Se realiza separacion de cada linea del texto
+
+        ###Ciclo iterativo linea por linea para obtener toda la informacion del documento recibido
         for linea in message: 
-            if(len(linea)!=0):
-                linea=linea.split(";")
+            if(len(linea)!=0): ###Condicion para detectar si el arreglo esta vacio (ultima linea), o tienen contenido
+                linea=linea.split(";") ###Se realiza la separacion de los valores
+
+                ###Se realiza la conersion de los valores para poder operarlos y registrarlos
                 rut=linea[0]
                 nem=int(linea[1])
                 ranking=int(linea[2])
@@ -192,19 +199,22 @@ class psuService(ServiceBase):
                 ciencias=int(linea[5])
                 historia=int(linea[6])
 
-                c1=float(nem*0.15+ranking*0.2+lenguaje*0.3+matematicas*0.25)
-                c2=float(nem*0.2+ranking*0.2+lenguaje*0.4+matematicas*0.1)
-                c3=float(nem*0.2+ranking*0.2+lenguaje*0.3+matematicas*0.15)
-                c4_7=float(nem*0.1+ranking*0.2+lenguaje*0.3+matematicas*0.3)
-                c8=float(nem*0.15+ranking*0.25+lenguaje*0.2+matematicas*0.2) 
-                c9_10=float(nem*0.2+ranking*0.2+lenguaje*0.15+matematicas*0.35)
-                c11=float(nem*0.15+ranking*0.35+lenguaje*0.2+matematicas*0.2)
-                c12_13=float(nem*0.15+ranking*0.25+lenguaje*0.2+matematicas*0.3)
-                c14_15=float(nem*0.1+ranking*0.25+lenguaje*0.15+matematicas*0.3)
-                c16_17=float(nem*0.1+ranking*0.4+lenguaje*0.3+matematicas*0.1)
-                c18=float(nem*0.2+ranking*0.3+lenguaje*0.2+matematicas*0.1)
-                c19_28=float(nem*0.1+ranking*0.25+lenguaje*0.2+matematicas*0.35)    
-                if(historia>=ciencias):
+                ### Se almacena los puntajes ponderados de cada area (se trabaja con "areas", debido a las carreras de igual ponderacion)
+                c1=float(nem*0.15+ranking*0.2+lenguaje*0.3+matematicas*0.25)     ###Carrera 21089
+                c2=float(nem*0.2+ranking*0.2+lenguaje*0.4+matematicas*0.1)       ###Carrera 21002
+                c3=float(nem*0.2+ranking*0.2+lenguaje*0.3+matematicas*0.15)      ###Carrera 21012
+                c4_7=float(nem*0.1+ranking*0.2+lenguaje*0.3+matematicas*0.3)     ###Carreras: 21048-21047
+                c8=float(nem*0.15+ranking*0.25+lenguaje*0.2+matematicas*0.2)     ###Carrera 21074
+                c9_10=float(nem*0.2+ranking*0.2+lenguaje*0.15+matematicas*0.35)  ###Carreras: 21032-21087
+                c11=float(nem*0.15+ranking*0.35+lenguaje*0.2+matematicas*0.2)    ###Carrera 21073
+                c12_13=float(nem*0.15+ranking*0.25+lenguaje*0.2+matematicas*0.3) ###Carreras: 21039-21080
+                c14_15=float(nem*0.1+ranking*0.25+lenguaje*0.15+matematicas*0.3) ###Carreras: 21083-21024
+                c16_17=float(nem*0.1+ranking*0.4+lenguaje*0.3+matematicas*0.1)   ###Carreras: 21023-21043
+                c18=float(nem*0.2+ranking*0.3+lenguaje*0.2+matematicas*0.1)      ###Carrera 21046
+                c19_28=float(nem*0.1+ranking*0.25+lenguaje*0.2+matematicas*0.35) ###Carreras: 21071-21045
+                
+                ###Se realiza una comparacion en funcion del puntaje de ciencias e historia; el mayor es agregado al puntaje final
+                if(historia>=ciencias): ###En caso de que el puntaje de historia sea mayor que el de ciencias
                     c1=c1+float(historia*0.1)
                     c2=c2+float(historia*0.1)
                     c3=c3+float(historia*0.15)
@@ -217,7 +227,7 @@ class psuService(ServiceBase):
                     c16_17=c16_17+float(historia*0.1)
                     c18=c18+float(historia*0.2)
                     c19_28=c19_28+float(historia*0.1)
-                else:
+                else:                    ###En el casocontrario, en el que ciencias es mayor a historia
                     c1=c1+float(ciencias*0.1)
                     c2=c2+float(ciencias*0.1)
                     c3=c3+float(ciencias*0.1)
@@ -230,7 +240,9 @@ class psuService(ServiceBase):
                     c16_17=c16_17+float(ciencias*0.1)
                     c18=c18+float(ciencias*0.2)
                     c19_28=c19_28+float(ciencias*0.1)
-                    
+
+                ###Ya con todos los puntajes ponderados, estos son almacenados; Este almacenamiento es para crear los grupos con los mejores puntajes para cada area
+                ###Estos grupos son de 2100 estudiantes, para evitar caer en el caso de que no sean suficientes estudiantes para cumplir la cuota del documento (2055)
                 todos[0]=almacenar(todos[0], [rut,c1], 2100)
                 todos[1]=almacenar(todos[1], [rut,c2], 2100)
                 todos[2]=almacenar(todos[2], [rut,c3], 2100)
@@ -245,6 +257,8 @@ class psuService(ServiceBase):
                 todos[11]=almacenar(todos[11], [rut,c19_28], 2100)
             else:
                 pass
+
+        ###Sector en el que se procede a generar los listados de matriculados por carrera
         for i in range(0,12):
             posicion=0
             posiciones_par=[0,0]
@@ -252,7 +266,7 @@ class psuService(ServiceBase):
             posicion_ing=[0,0,0,0,0,0,0,0,0,0]
             if(i==0):
                 while(len(carreras[0])<22):
-                    carreras[0]=almacenar(carreras[0],todos[i][posicion], 22)
+                    carreras[0]=almacenar(carreras[0],todos[i][posicion], 35)
                     matriculados.append(todos[i][posicion][0])
                     posicion=posicion+1
             elif(i==1):
@@ -260,7 +274,7 @@ class psuService(ServiceBase):
                     if(todos[i][posicion][0] in matriculados):
                         posicion=posicion+1
                     else:
-                        carreras[1]=almacenar(carreras[1],todos[i][posicion], 22)
+                        carreras[1]=almacenar(carreras[1],todos[i][posicion], 35)
                         matriculados.append(todos[i][posicion][0])
                         posicion=posicion+1
             elif(i==2):
@@ -268,18 +282,18 @@ class psuService(ServiceBase):
                     if(todos[i][posicion][0] in matriculados):
                         posicion=posicion+1
                     else:
-                        carreras[2]=almacenar(carreras[2],todos[i][posicion], 22)
+                        carreras[2]=almacenar(carreras[2],todos[i][posicion], 80)
                         matriculados.append(todos[i][posicion][0])
                         posicion=posicion+1
             elif(i==3):
-                while((len(carreras[3])+len(carreras[4])+len(carreras[5])+len(carreras[6]))<88):
+                while((len(carreras[3])+len(carreras[4])+len(carreras[5])+len(carreras[6]))<270):
                     if(n[0]==0):
                         cant_actual=len(carreras[3])
                         while(cant_actual==len(carreras[3])):
                             if(todos[i][posicion_tetra[0]][0] in matriculados):
                                 posicion_tetra[0]=posicion_tetra[0]+1
                             else:
-                                carreras[3]=almacenar(carreras[3],todos[i][posicion_tetra[0]], 22)
+                                carreras[3]=almacenar(carreras[3],todos[i][posicion_tetra[0]], 125)
                                 matriculados.append(todos[i][posicion_tetra[0]][0])
                                 posicion_tetra[0]=posicion_tetra[0]+1
                         n[0]=1
@@ -289,7 +303,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_tetra[1]][0] in matriculados):
                                 posicion_tetra[1]=posicion_tetra[1]+1
                             else:
-                                carreras[4]=almacenar(carreras[4],todos[i][posicion_tetra[1]], 22)
+                                carreras[4]=almacenar(carreras[4],todos[i][posicion_tetra[1]], 30)
                                 matriculados.append(todos[i][posicion_tetra[1]][0])
                                 posicion_tetra[1]=posicion_tetra[1]+1
                         n[0]=2
@@ -299,7 +313,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_tetra[2]][0] in matriculados):
                                 posicion_tetra[2]=posicion_tetra[2]+1
                             else:
-                                carreras[5]=almacenar(carreras[5],todos[i][posicion_tetra[2]], 22)
+                                carreras[5]=almacenar(carreras[5],todos[i][posicion_tetra[2]], 90)
                                 matriculados.append(todos[i][posicion_tetra[2]][0])
                                 posicion_tetra[2]=posicion_tetra[2]+1
                         n[0]=3
@@ -309,7 +323,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_tetra[3]][0] in matriculados):
                                 posicion_tetra[3]=posicion_tetra[3]+1
                             else:
-                                carreras[6]=almacenar(carreras[6],todos[i][posicion_tetra[3]], 22)
+                                carreras[6]=almacenar(carreras[6],todos[i][posicion_tetra[3]], 25)
                                 matriculados.append(todos[i][posicion_tetra[3]][0])
                                 posicion_tetra[3]=posicion_tetra[3]+1
                         n[0]=0
@@ -318,18 +332,18 @@ class psuService(ServiceBase):
                     if(todos[i][posicion][0] in matriculados):
                         posicion=posicion+1
                     else:
-                        carreras[7]=almacenar(carreras[7],todos[i][posicion], 22)
+                        carreras[7]=almacenar(carreras[7],todos[i][posicion], 100)
                         matriculados.append(todos[i][posicion][0])
                         posicion=posicion+1
             elif(i==5):
-                while((len(carreras[8])+len(carreras[9]))<44):
+                while((len(carreras[8])+len(carreras[9]))<200):
                     if(n[1]==0):
                         cant_actual=len(carreras[8])
                         while(cant_actual==len(carreras[8])):
                             if(todos[i][posiciones_par[0]][0] in matriculados):
                                 posiciones_par[0]=posiciones_par[0]+1
                             else:
-                                carreras[8]=almacenar(carreras[8],todos[i][posiciones_par[0]], 22)
+                                carreras[8]=almacenar(carreras[8],todos[i][posiciones_par[0]], 100)
                                 matriculados.append(todos[i][posiciones_par[0]][0])
                                 posiciones_par[0]=posiciones_par[0]+1
                         n[1]=1
@@ -339,7 +353,7 @@ class psuService(ServiceBase):
                             if(todos[i][posiciones_par[1]][0] in matriculados):
                                 posiciones_par[1]=posiciones_par[1]+1
                             else:
-                                carreras[9]=almacenar(carreras[9],todos[i][posiciones_par[1]], 22)
+                                carreras[9]=almacenar(carreras[9],todos[i][posiciones_par[1]], 100)
                                 matriculados.append(todos[i][posiciones_par[1]][0])
                                 posiciones_par[1]=posiciones_par[1]+1
                         n[1]=0
@@ -348,18 +362,18 @@ class psuService(ServiceBase):
                     if(todos[i][posicion][0] in matriculados):
                         posicion=posicion+1
                     else:
-                        carreras[10]=almacenar(carreras[10],todos[i][posicion], 22)
+                        carreras[10]=almacenar(carreras[10],todos[i][posicion], 30)
                         matriculados.append(todos[i][posicion][0])
                         posicion=posicion+1
             elif(i==7):
-                while((len(carreras[11])+len(carreras[12]))<44):
+                while((len(carreras[11])+len(carreras[12]))<90):
                     if(n[2]==0):
                         cant_actual=len(carreras[11])
                         while(cant_actual==len(carreras[11])):
                             if(todos[i][posiciones_par[0]][0] in matriculados):
                                 posiciones_par[0]=posiciones_par[0]+1
                             else:
-                                carreras[11]=almacenar(carreras[11],todos[i][posiciones_par[0]], 22)
+                                carreras[11]=almacenar(carreras[11],todos[i][posiciones_par[0]], 60)
                                 matriculados.append(todos[i][posiciones_par[0]][0])
                                 posiciones_par[0]=posiciones_par[0]+1
                         n[2]=1
@@ -369,19 +383,19 @@ class psuService(ServiceBase):
                             if(todos[i][posiciones_par[1]][0] in matriculados):
                                 posiciones_par[1]=posiciones_par[1]+1
                             else:
-                                carreras[12]=almacenar(carreras[12],todos[i][posiciones_par[1]], 22)
+                                carreras[12]=almacenar(carreras[12],todos[i][posiciones_par[1]], 30)
                                 matriculados.append(todos[i][posiciones_par[1]][0])
                                 posiciones_par[1]=posiciones_par[1]+1
                         n[2]=0
             elif(i==8):
-                while((len(carreras[13])+len(carreras[14]))<44):
+                while((len(carreras[13])+len(carreras[14]))<120):
                     if(n[3]==0):
                         cant_actual=len(carreras[13])
                         while(cant_actual==len(carreras[13])):
                             if(todos[i][posiciones_par[0]][0] in matriculados):
                                 posiciones_par[0]=posiciones_par[0]+1
                             else:
-                                carreras[13]=almacenar(carreras[13],todos[i][posiciones_par[0]], 22)
+                                carreras[13]=almacenar(carreras[13],todos[i][posiciones_par[0]], 80)
                                 matriculados.append(todos[i][posiciones_par[0]][0])
                                 posiciones_par[0]=posiciones_par[0]+1
                         n[3]=1
@@ -391,19 +405,19 @@ class psuService(ServiceBase):
                             if(todos[i][posiciones_par[1]][0] in matriculados):
                                 posiciones_par[1]=posiciones_par[1]+1
                             else:
-                                carreras[14]=almacenar(carreras[14],todos[i][posiciones_par[1]], 22)
+                                carreras[14]=almacenar(carreras[14],todos[i][posiciones_par[1]], 40)
                                 matriculados.append(todos[i][posiciones_par[1]][0])
                                 posiciones_par[1]=posiciones_par[1]+1
                         n[3]=0
             elif(i==9):
-                while((len(carreras[15])+len(carreras[16]))<44):
+                while((len(carreras[15])+len(carreras[16]))<165):
                     if(n[4]==0):
                         cant_actual=len(carreras[15])
                         while(cant_actual==len(carreras[15])):
                             if(todos[i][posiciones_par[0]][0] in matriculados):
                                 posiciones_par[0]=posiciones_par[0]+1
                             else:
-                                carreras[15]=almacenar(carreras[15],todos[i][posiciones_par[0]], 22)
+                                carreras[15]=almacenar(carreras[15],todos[i][posiciones_par[0]], 100)
                                 matriculados.append(todos[i][posiciones_par[0]][0])
                                 posiciones_par[0]=posiciones_par[0]+1
                         n[4]=1
@@ -413,7 +427,7 @@ class psuService(ServiceBase):
                             if(todos[i][posiciones_par[1]][0] in matriculados):
                                 posiciones_par[1]=posiciones_par[1]+1
                             else:
-                                carreras[16]=almacenar(carreras[16],todos[i][posiciones_par[1]], 22)
+                                carreras[16]=almacenar(carreras[16],todos[i][posiciones_par[1]], 65)
                                 matriculados.append(todos[i][posiciones_par[1]][0])
                                 posiciones_par[1]=posiciones_par[1]+1
                         n[4]=0
@@ -422,18 +436,18 @@ class psuService(ServiceBase):
                     if(todos[i][posicion][0] in matriculados):
                         posicion=posicion+1
                     else:
-                        carreras[17]=almacenar(carreras[17],todos[i][posicion], 22)
+                        carreras[17]=almacenar(carreras[17],todos[i][posicion], 95)
                         matriculados.append(todos[i][posicion][0])
                         posicion=posicion+1
             elif(i==11):
-                while((len(carreras[18])+len(carreras[19])+len(carreras[20])+len(carreras[21])+len(carreras[22])+len(carreras[23])+len(carreras[24])+len(carreras[25])+len(carreras[26])+len(carreras[27]))<220):
+                while((len(carreras[18])+len(carreras[19])+len(carreras[20])+len(carreras[21])+len(carreras[22])+len(carreras[23])+len(carreras[24])+len(carreras[25])+len(carreras[26])+len(carreras[27]))<835):
                     if(n[5]==0):
                         cant_actual=len(carreras[18])
                         while(cant_actual==len(carreras[18])):
                             if(todos[i][posicion_ing[0]][0] in matriculados):
                                 posicion_ing[0]=posicion_ing[0]+1
                             else:
-                                carreras[18]=almacenar(carreras[18],todos[i][posicion_ing[0]], 22)
+                                carreras[18]=almacenar(carreras[18],todos[i][posicion_ing[0]], 25)
                                 matriculados.append(todos[i][posicion_ing[0]][0])
                                 posicion_ing[0]=posicion_ing[0]+1
                         n[5]=1
@@ -443,7 +457,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_ing[1]][0] in matriculados):
                                 posicion_ing[1]=posicion_ing[1]+1
                             else:
-                                carreras[19]=almacenar(carreras[19],todos[i][posicion_ing[1]], 22)
+                                carreras[19]=almacenar(carreras[19],todos[i][posicion_ing[1]], 25)
                                 matriculados.append(todos[i][posicion_ing[1]][0])
                                 posicion_ing[1]=posicion_ing[1]+1
                         n[5]=2
@@ -453,7 +467,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_ing[2]][0] in matriculados):
                                 posicion_ing[2]=posicion_ing[2]+1
                             else:
-                                carreras[20]=almacenar(carreras[20],todos[i][posicion_ing[2]], 22)
+                                carreras[20]=almacenar(carreras[20],todos[i][posicion_ing[2]], 130)
                                 matriculados.append(todos[i][posicion_ing[2]][0])
                                 posicion_ing[2]=posicion_ing[2]+1
                         n[5]=3
@@ -463,7 +477,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_ing[3]][0] in matriculados):
                                 posicion_ing[3]=posicion_ing[3]+1
                             else:
-                                carreras[21]=almacenar(carreras[21],todos[i][posicion_ing[3]], 22)
+                                carreras[21]=almacenar(carreras[21],todos[i][posicion_ing[3]], 200)
                                 matriculados.append(todos[i][posicion_ing[3]][0])
                                 posicion_ing[3]=posicion_ing[3]+1
                         n[5]=4
@@ -473,7 +487,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_ing[2]][0] in matriculados):
                                 posicion_ing[2]=posicion_ing[2]+1
                             else:
-                                carreras[22]=almacenar(carreras[22],todos[i][posicion_ing[2]], 22)
+                                carreras[22]=almacenar(carreras[22],todos[i][posicion_ing[2]], 60)
                                 matriculados.append(todos[i][posicion_ing[2]][0])
                                 posicion_ing[2]=posicion_ing[2]+1
                         n[5]=5
@@ -483,7 +497,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_ing[2]][0] in matriculados):
                                 posicion_ing[2]=posicion_ing[2]+1
                             else:
-                                carreras[23]=almacenar(carreras[23],todos[i][posicion_ing[2]], 22)
+                                carreras[23]=almacenar(carreras[23],todos[i][posicion_ing[2]], 80)
                                 matriculados.append(todos[i][posicion_ing[2]][0])
                                 posicion_ing[2]=posicion_ing[2]+1
                         n[5]=6
@@ -493,7 +507,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_ing[2]][0] in matriculados):
                                 posicion_ing[2]=posicion_ing[2]+1
                             else:
-                                carreras[24]=almacenar(carreras[24],todos[i][posicion_ing[2]], 22)
+                                carreras[24]=almacenar(carreras[24],todos[i][posicion_ing[2]], 90)
                                 matriculados.append(todos[i][posicion_ing[2]][0])
                                 posicion_ing[2]=posicion_ing[2]+1
                         n[5]=7
@@ -503,7 +517,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_ing[2]][0] in matriculados):
                                 posicion_ing[2]=posicion_ing[2]+1
                             else:
-                                carreras[25]=almacenar(carreras[25],todos[i][posicion_ing[2]], 22)
+                                carreras[25]=almacenar(carreras[25],todos[i][posicion_ing[2]], 60)
                                 matriculados.append(todos[i][posicion_ing[2]][0])
                                 posicion_ing[2]=posicion_ing[2]+1
                         n[5]=8
@@ -513,7 +527,7 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_ing[2]][0] in matriculados):
                                 posicion_ing[2]=posicion_ing[2]+1
                             else:
-                                carreras[26]=almacenar(carreras[26],todos[i][posicion_ing[2]], 22)
+                                carreras[26]=almacenar(carreras[26],todos[i][posicion_ing[2]], 105)
                                 matriculados.append(todos[i][posicion_ing[2]][0])
                                 posicion_ing[2]=posicion_ing[2]+1
                         n[5]=9
@@ -523,14 +537,17 @@ class psuService(ServiceBase):
                             if(todos[i][posicion_ing[2]][0] in matriculados):
                                 posicion_ing[2]=posicion_ing[2]+1
                             else:
-                                carreras[27]=almacenar(carreras[27],todos[i][posicion_ing[2]], 22)
+                                carreras[27]=almacenar(carreras[27],todos[i][posicion_ing[2]], 60)
                                 matriculados.append(todos[i][posicion_ing[2]][0])
                                 posicion_ing[2]=posicion_ing[2]+1
                         n[5]=0
-        insertar(carreras)
-        todo=open("Admision UTEM.xlsx", 'rb').read()
-        exc_64=base64.b64encode(todo).decode('UTF-8')
+        
+        insertar(carreras) ###Creacion y llenado del excel final
+        todo=open("Admision UTEM.xlsx", 'rb').read()  ###Lectura del excel creado
+        exc_64=base64.b64encode(todo).decode('UTF-8') ###Guardado en base64
         mime_exc="holi"
+
+        ###Retorno del nombre del archivo, el tipo MIME, y el string base64 del excel
         yield("Admision UTEM.xlsx")
         yield(mime_exc)
         yield(exc_64)
