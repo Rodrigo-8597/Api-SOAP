@@ -31,6 +31,7 @@ _Mediante instalacion por pip (o pip3, dependiendo el caso de ya poseer python e
 * [lxml](https://pypi.org/project/lxml/) - Usado para generar RSS
 * [Base64] - Usado para generar RSS
 * [re](https://rometools.github.io/rome/) - Usado para generar RSS 
+* [mimetypes]
 
 
 ### Instalación 🔧
@@ -53,46 +54,18 @@ _Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para 
 
 ## Ejecutando las pruebas ⚙️
 
-_Explica como ejecutar las pruebas automatizadas para este sistema_
-
-### Analice las pruebas end-to-end 🔩
-
-_Explica que verifican estas pruebas y por qué_
-
-```
-Da un ejemplo
-```
-
-### Y las pruebas de estilo de codificación ⌨️
-
-_Explica que verifican estas pruebas y por qué_
-
-```
-Da un ejemplo
-```
+_El software fue testeado con 3 documentos, uno de 5000, otro de 15000 y otro de 100000_
 
 ## Despliegue 📦
 
 _Agrega notas adicionales sobre como hacer deploy_
 
-## Construido con 🛠️
-
-_Menciona las herramientas que utilizaste para crear tu proyecto_
-
-* [Python](http://www.dropwizard.io/1.0.2/docs/) - Lenguaje empleado
-
-
-* [Spyne](https://maven.apache.org/) - Manejador de dependencias
-* [Openpyxl](https://rometools.github.io/rome/) - Usado para generar RSS
-* [Base64](https://rometools.github.io/rome/) - Usado para generar RSS
-* [re](https://rometools.github.io/rome/) - Usado para generar RSS
-
-
 ## Autores ✒️
 
-* **Ricardo Aliste G.** - *Trabajo Inicial* - [villanuevand](https://github.com/villanuevand)
-* **Rodrigo Carmona R.** - *Documentación* - [fulanitodetal](#fulanito-de-tal)
-* **Daniel Cajas** - *Documentación* - [fulanitodetal](#fulanito-de-tal)
+* **Ricardo Aliste G.** - *Desarrollador/Documentación*
+* **Rodrigo Carmona R.** - *Documentación*
+* **Daniel Cajas** - *Desarrollador*
 
 
-⌨️ con ❤️ por [Villanuevand](https://github.com/Villanuevand) 😊
+
+Plantilla utilizada para el readme creada por [Villanuevand](https://github.com/Villanuevand) 😊
