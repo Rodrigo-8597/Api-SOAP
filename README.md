@@ -1,15 +1,4 @@
 # Api-SOAP
-desarrolllo de api soap para trabajo 1 del ramo Computacion Paralela de la UTEM
-
--Lenguaje_
-
-Python Version 3.8
-
--Librerias Requeridas
-
-Spyne: pip install spyne==2.13.2a0
-Openpyxl: pip install openpyxl
-lxml: pip install lmxl
 
 -Activar servidor
 
@@ -19,9 +8,9 @@ en soapUI:
 
 http://localhost:8000/?wsdl
 
-# Título del Proyecto
+# Api-SOAP
 
-_Acá va un párrafo que describa lo que es el proyecto_
+_API de protocolo SOAP para el ramo de Computacion Paralela y Distribuida de la UTEM (Trabajo 1)_
 
 ## Comenzando 🚀
 
@@ -32,11 +21,17 @@ Mira **Deployment** para conocer como desplegar el proyecto.
 
 ### Pre-requisitos 📋
 
-_Que cosas necesitas para instalar el software y como instalarlas_
+_Para la instalacion y correcto funcionamiento, se requiere lo siguiente:_
 
-```
-Da un ejemplo
-```
+* [Python](Version 3.8) - Lenguaje empleado
+
+_Mediante instalacion por pip (o pip3, dependiendo el caso de ya poseer python en el equipo), las siguientes librerias:_
+* [Spyne](pip install spyne==2.13.2a0)(https://pypi.org/project/spyne/2.13.2a0/) - Manejador de dependencias
+* [Openpyxl](pip install openpyxl)(https://pypi.org/project/openpyxl/) - Usado para generar RSS
+* [lxml](https://pypi.org/project/lxml/) - Usado para generar RSS
+* [Base64] - Usado para generar RSS
+* [re](https://rometools.github.io/rome/) - Usado para generar RSS 
+
 
 ### Instalación 🔧
 
