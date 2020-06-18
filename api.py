@@ -229,7 +229,7 @@ class psuService(ServiceBase):                                    ###Declaracion
         Detalle importante para el profesor: al estar trabajando en soap, y por el mencionado problema de too long 
         por el string base64, es que decidi añadir la siguiente linea, por si es que llegara a ser necesaria
         
-        dato_64=open("puntajes.csv", "r")
+        dato_64=open("puntajes-64.txt", "r")
         
         Gracias a que el programa esta elaborado en python, es pisoble hacer algo asi; si desea usar otro archivo en 
         otra ubicacion distinta a la de este codigo python, recordar cambiar lo de *puntajes.csv".
