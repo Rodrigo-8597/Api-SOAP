@@ -54,7 +54,7 @@ _Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para 
 
 ## Ejecutando las pruebas ⚙️
 
-_El software fue testeado con 3 documentos, uno de 5000, otro de 15000 y otro de 100000_
+_El software fue testeado con 3 documentos, uno de 5000, otro de 10000 y otro de 12000, los 3 presentando un funcionamiento correcto_
 
 ## Despliegue 📦
 
