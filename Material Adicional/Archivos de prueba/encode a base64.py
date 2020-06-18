@@ -1,0 +1,10 @@
+import base64
+archivo=open("12000.csv", "r")
+message=archivo.read()
+message_bytes = message.encode('ascii')
+base64_bytes = base64.b64encode(message_bytes)
+base64_message = base64_bytes.decode('ascii')
+n=open("12000-64.txt", "w")
+a=n.write(base64_message)
+archivo.close()
+n.close()
