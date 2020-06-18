@@ -166,19 +166,35 @@ def insertar(carreras): ###Funcion encargada de crear y poblar las diversas hoja
     excel.save(nombre) ###Y realiza el guardado del excel en la maquina
 
 
-def extrapolarMime(nombre):
-    mimetuple=guess_type(nombre)
-    if(mimetuple[0]=="application/vnd.ms-excel" and re.search(".csv$" , nombre)):
+def extrapolarMime(nombre): ###Funcion para corroborar el tipo mime en base al nombre
+    mimetuple=guess_type(nombre) ###Obtiene un listado de tipos mime para el nombre
+    if(mimetuple[0]=="application/vnd.ms-excel" and re.search(".csv$" , nombre)): ###En caso de serlo, retornara el tipo mime "text/csv"
         return "text/csv"
     else:
-        return mimetuple[0]
+        return mimetuple[0] ###En caso contrario, retornara una distinta
 
-def obtenerMime(stringstream):
+def obtenerMime(stringstream): ###Funcion para corroborar el tipo mime del string en base64
     if(stringstream):
-        string=""
-        
-        string = stringstream[0:20]
-        if(re.search("text\/(\w+)", string)):
+        string = stringstream[0:200]
+        stringb = string[0:43]+'='
+        if(determinarBase64(stringb)):
+            string64 = (base64.b64decode(stringb.encode("utf-8"))).decode("utf-8")
+            if(re.search("text\/(\w+)", string64)):                
+                if(re.findall("text\/(\w+)", string64)[0]=="csv"):
+                    return "text/csv"
+            elif(re.search("(.+)\.(\w+)",string64)):                
+                lista = (re.findall("(.+)\.(\w+)",string64))
+                for caso in lista:
+                    for palabra in caso:
+                        if(palabra=="csv"):
+                            return "text/csv"
+                        elif(palabra=="txt"):
+                            return "text/plain"
+            elif(re.search("data:text\/(\w+)", string64)):
+                if(re.findall("data:text\/(\w+)", string64)[0]=="csv"):
+                    return "text/csv"
+            return "Codificado"
+        elif(re.search("text\/(\w+)", string)):
             if(re.findall("text\/(\w+)", string)[0]=="csv"):
                 return "text/csv"
         elif(re.search("(.+)\.(\w+)",string)):
@@ -192,11 +208,9 @@ def obtenerMime(stringstream):
         elif(re.search("data:text\/(\w+)", string)):
             if(re.findall("data:text\/(\w+)", string)[0]=="csv"):
                 return "text/csv"
-        elif(determinarBase64(string)):
-            return "Codificado"
         return "Invalid"
 
-def determinarBase64(stringbin):
+def determinarBase64(stringbin): ###Funcion que corrobora que el string recibido esta en base64
     try:
         if isinstance(stringbin, str):
             strbytes = bytes(stringbin, 'ascii')
@@ -208,16 +222,16 @@ def determinarBase64(stringbin):
     except Exception:
         return False
 
-def corroborarTipoMime(nombre, string): ###Funcion que corrobora
-    mimeString=obtenerMime(string)
-    mimeName=extrapolarMime(nombre)
-    if(not mimeName):
+def corroborarTipoMime(nombre, string): ###Funcion encargada de corroborar si el tipo mime del string base64 y el nombre del archivo concuerdan
+    mimeString=obtenerMime(string)  ###Confirma tipo mime del string base64
+    mimeName=extrapolarMime(nombre) ###Confirma tipo mime del nombre
+    if(not mimeName): ###En el caso de que el tipo mime del nombre no sea valido...
         return False
-    elif(mimeString=="Invalid"):
+    elif(mimeString=="Invalid"): ###... o en el caso de que no sea un string valido...
         return False
-    elif(mimeString=="Codificado" and mimeName=="text/csv"):
+    elif(mimeString=="Codificado" and mimeName=="text/csv"): ###En caso de confirmarse que esta base64, y que el tipo mime es TEXT/CSV, retorna un True
         return True
-    elif(not (mimeString==mimeName)):
+    elif(not (mimeString==mimeName)): ##... o en el caso de que no uno no sea del tipo mime correspondiente, retornara un False
         return False
     return True
 
