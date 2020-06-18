@@ -225,6 +225,15 @@ def corroborarTipoMime(nombre, string): ###Funcion que corrobora
 class psuService(ServiceBase):                                    ###Declaracion de clase "psuService" para consumo de la API
     @rpc(Unicode, Unicode, Unicode, _returns = Iterable(Unicode)) ###Decorador para consumo de la API
     def separacion(ctx, nombre_archivo, mime, dato_64):           ###Funcion a consumir, recibe como parametro un ctx (viene por defecto), nombre del archivo enviado en base64, el tipo mime seleccionado del archivo enviado, y el archivo mismo, en base64
+        """
+        Detalle importante para el profesor: al estar trabajando en soap, y por el mencionado problema de too long 
+        por el string base64, es que decidi añadir la siguiente linea, por si es que llegara a ser necesaria
+        
+        dato_64=open("puntajes.csv", "r")
+        
+        Gracias a que el programa esta elaborado en python, es pisoble hacer algo asi; si desea usar otro archivo en 
+        otra ubicacion distinta a la de este codigo python, recordar cambiar lo de *puntajes.csv".
+        """
         ###Activacion de variables de apoyo y almacenamiento
         n=[0, 0, 0, 0, 0, 0] ###Contadores para areas con multiples carreras
         matriculados=[]      ###Listado de alumnos ya matriculados
