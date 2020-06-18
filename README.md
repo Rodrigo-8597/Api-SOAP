@@ -4,6 +4,10 @@
 
 dentro del terminal, y ya con python instalado, se escribe la siguiente linea de codigo en la ubicacion del archivo api.py
 
+
+https://drive.google.com/file/d/1v5yV9-jAjymUSEg27YgiJ3kOykknEU7v/view?usp=sharing
+
+
 en soapUI:
 
 http://localhost:8000/?wsdl
