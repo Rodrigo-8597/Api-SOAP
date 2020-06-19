@@ -11,17 +11,17 @@ _Para la instalacion y correcto funcionamiento, se requiere lo siguiente:_
 _Mediante instalacion por pip (o pip3, dependiendo el caso de ya poseer python en el equipo), las siguientes librerias:_
 * [Spyne](pip install spyne==2.13.2a0)(https://pypi.org/project/spyne/2.13.2a0/) - Manejador de dependencias
 * [Openpyxl](Version 3.0.3)(pip install openpyxl)(https://pypi.org/project/openpyxl/) - Usado para generar RSS
-* [lxml](Version 4.5.1.0.3)(pip install lxml)(https://pypi.org/project/lxml/) - Para validacion
+* [lxml](Version 4.5.1.0.3)(pip install lxml)(https://pypi.org/project/lxml/) - Para validación del archivo xml recibido
 * [Base64] - Usado para encode y decode base64
-* [re] - Para tipo mime 
-* [mimetypes] - Para tipo mime
+* [re] - Para validar, detectar y corroborar tipo mime de los archivos Excel 
+* [mimetypes] - Para validar, detectar y corroborar tipo mime de los archivos Excel
 
 
 ### Despliegue 📦
 
 _Para poder desplegar y consumir este servicio, se deben seguir los siguientes pasos_
 
-_1)se debe realizar la instalacion de python, en su version 3.8; para esto, se puede descargar desde la pagina oficial de python(https://www.python.org/downloads/). Una vez instalado, se puede corroborar la version mediante la consola de comandos mediante el siguiente comando _
+_1)Se debe realizar la instalación de Python, en su versión 3.8; para esto, se puede descargar desde la página oficial de Python(https://www.python.org/downloads/). Una vez instalado, se puede corroborar la version mediante la consola de comandos mediante el siguiente comando _
 
 ```
 python --version
