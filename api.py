@@ -260,7 +260,7 @@ class psuService(ServiceBase):                                    ###Declaracion
         for i in range(0, 12):
             todos.append([])
         
-        mime=mime.lower()
+        mime=mime.lower() ###Se para el tipo mime a minusculas para la comparacion del tipo mime detectado y el tipo mime recibido
         if(corroborarTipoMime(nombre_archivo, dato_64,mime)): ###Comprobacion de que el tipo mime concuerde con el establecido en el nombre y el archivo enviado en base64
             pass
         else: ###En caso de no serlo, entrega una aviso del error y da un ejemplo al usuario; luego termina el proceso
@@ -273,7 +273,7 @@ class psuService(ServiceBase):                                    ###Declaracion
         message = message_bytes.decode('ascii')
         message=message.split("\n") ###Se realiza separacion de cada linea del texto
         
-        if(len(message)<2101):
+        if(len(message)<2101): ###Comprobador de que consta con la cantidad minima de lineas para el funcionamiento del sistema
             yield("El documento .csv enviado contiene una menor cantidad de personas de minimas requeridas (2101 personas)")
             return 0
         ###Ciclo iterativo linea por linea para obtener toda la informacion del documento recibido
