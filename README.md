@@ -61,7 +61,7 @@ http://localhost:8000/?wsdl
 
 ## Ejecutando las pruebas ⚙️
 
-_El software fue testeado con 4 documentos, uno de 100, 5000, otro de 10000 y otro de 12000, en el caso del de 100 lineas detecto exitosamente la invalides de este por ser una cantidad inferior a la necesitada; en el caso de los otros 3, realizo el analisis y verificacion del tipo ime, el decode del string, la generacion del Excel requerido y el posterior envio de los datos solicitados_
+_El software fue testeado con 4 documentos, uno de 100, 5000, otro de 10000 y otro de 12000, en el caso del de 100 lineas detecto exitosamente la invalidez de este por ser una cantidad inferior a la necesitada; en el caso de los otros 3, realizo el analisis y verificacion del tipo mime, el decode del string, la generacion del Excel requerido y el posterior envio de los datos solicitados_
 
 ## Notas adicionales 📖
 * El string a recibir debe estar en base 64.
