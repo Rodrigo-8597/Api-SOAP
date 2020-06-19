@@ -63,7 +63,7 @@ http://localhost:8000/?wsdl
 
 _El software fue testeado con 4 documentos, uno de 100, 5000, otro de 10000 y otro de 12000, en el caso del de 100 lineas detecto exitosamente la invalides de este por ser una cantidad inferior a la necesitada; en el caso de los otros 3, realizo el analisis y verificacion del tipo ime, el decode del string, la generacion del Excel requerido y el posterior envio de los datos solicitados_
 
-## Notas adicionales 
+## Notas adicionales 📖
 * El string a recibir debe estar en base 64.
 * El archivo CSV del que se obtiene debe contar mas de 2101 estudiantes para el correcto funcionamiento (revisar carpeta "Material Adicional")
 * Enlace archivo puntajes.csv: https://drive.google.com/file/d/1v5yV9-jAjymUSEg27YgiJ3kOykknEU7v/view?usp=sharing
