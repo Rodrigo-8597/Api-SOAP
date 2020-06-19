@@ -70,9 +70,10 @@ _El software fue testeado con 4 documentos, uno de 100, 5000, otro de 10000 y ot
 
 ## Autores ✒️
 
-* **Ricardo Aliste G.** - *Desarrollador/Documentación*
+* **Ricardo Aliste G.** - *Desarrollado/Documentación*
+* **Daniel Cajas U.** - *Desarrollado*
 * **Rodrigo Carmona R.** - *Documentación*
-* **Daniel Cajas** - *Desarrollador*
+
 
 
 
