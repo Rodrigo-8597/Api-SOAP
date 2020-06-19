@@ -222,14 +222,14 @@ def determinarBase64(stringbin): ###Funcion que corrobora que el string recibido
     except Exception:
         return False
 
-def corroborarTipoMime(nombre, string): ###Funcion encargada de corroborar si el tipo mime del string base64 y el nombre del archivo concuerdan
+def corroborarTipoMime(nombre, string, tipoMIME): ###Funcion encargada de corroborar si el tipo mime del string base64, el tipo mime enviado y el del nombre del archivo concuerdan
     mimeString=obtenerMime(string)  ###Confirma tipo mime del string base64
     mimeName=extrapolarMime(nombre) ###Confirma tipo mime del nombre
     if(not mimeName): ###En el caso de que el tipo mime del nombre no sea valido...
         return False
     elif(mimeString=="Invalid"): ###... o en el caso de que no sea un string valido...
         return False
-    elif(mimeString=="Codificado" and mimeName=="text/csv"): ###En caso de confirmarse que esta base64, y que el tipo mime es TEXT/CSV, retorna un True
+    elif(mimeString=="Codificado" and mimeName==tipoMIME): ###En caso de confirmarse que esta base64, y que el tipo mime es TEXT/CSV, retorna un True
         return True
     elif(not (mimeString==mimeName)): ##... o en el caso de que no uno no sea del tipo mime correspondiente, retornara un False
         return False
@@ -259,8 +259,9 @@ class psuService(ServiceBase):                                    ###Declaracion
         todos = []  ###Lista de listas (listado de los mejores por area)
         for i in range(0, 12):
             todos.append([])
-
-        if(corroborarTipoMime(nombre_archivo, dato_64)): ###Comprobacion de que el tipo mime concuerde con el establecido en el nombre y el archivo enviado en base64
+        
+        mime=mime.lower()
+        if(corroborarTipoMime(nombre_archivo, dato_64,mime)): ###Comprobacion de que el tipo mime concuerde con el establecido en el nombre y el archivo enviado en base64
             pass
         else: ###En caso de no serlo, entrega una aviso del error y da un ejemplo al usuario; luego termina el proceso
             yield("\nExtension no compatible, asegurese de especificar nombre completo del archivo (incluyendo extension) y el archivo en base64\n\nEjemplo de ingreso\nnombre: 5000.csv  mime:.csv  datos_64: *el string en base 64*")
@@ -271,7 +272,10 @@ class psuService(ServiceBase):                                    ###Declaracion
         message_bytes = base64.b64decode(base64_bytes)
         message = message_bytes.decode('ascii')
         message=message.split("\n") ###Se realiza separacion de cada linea del texto
-
+        
+        if(len(message)<2101):
+            yield("El documento .csv enviado contiene una menor cantidad de personas de minimas requeridas (2101 personas)")
+            return 0
         ###Ciclo iterativo linea por linea para obtener toda la informacion del documento recibido
         for linea in message: 
             if(len(linea)!=0): ###Condicion para detectar si el arreglo esta vacio (ultima linea), o tienen contenido
